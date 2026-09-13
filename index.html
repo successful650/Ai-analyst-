@@ -1,1 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>PRECISION SNIPER AI</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="topbar">
+
+    <div>
+      <h1>PRECISION SNIPER AI</h1>
+      <p>Advanced Price Action & Market Structure Analyst</p>
+    </div>
+
+    <div class="connection">
+      <span id="connectionDot"></span>
+      <span id="connectionText">Connecting...</span>
+    </div>
+
+  </header>
+
+
+  <main class="container">
+
+    <!-- CONTROL PANEL -->
+
+    <section class="panel controls">
+
+      <div class="control">
+
+        <label>Market</label>
+
+        <select id="symbol">
+
+          <option value="XAU/USD">Gold XAU/USD</option>
+          <option value="XAG/USD">Silver XAG/USD</option>
+
+          <option value="EUR/USD">EUR/USD</option>
+          <option value="GBP/USD">GBP/USD</option>
+          <option value="USD/JPY">USD/JPY</option>
+          <option value="USD/CHF">USD/CHF</option>
+          <option value="AUD/USD">AUD/USD</option>
+          <option value="USD/CAD">USD/CAD</option>
+          <option value="NZD/USD">NZD/USD</option>
+
+          <option value="NDX">NASDAQ</option>
+          <option value="SPX">S&P 500</option>
+
+          <option value="BTC/USD">Bitcoin</option>
+          <option value="ETH/USD">Ethereum</option>
+
+          <option value="DERIV:1HZ10V">Deriv Volatility 10 1s</option>
+          <option value="DERIV:1HZ25V">Deriv Volatility 25 1s</option>
+          <option value="DERIV:1HZ50V">Deriv Volatility 50 1s</option>
+          <option value="DERIV:1HZ75V">Deriv Volatility 75 1s</option>
+          <option value="DERIV:1HZ100V">Deriv Volatility 100 1s</option>
+
+          <option value="DERIV:1HZ150V">Deriv Volatility 150 1s</option>
+
+          <option value="DERIV:JD10">Jump 10</option>
+          <option value="DERIV:JD25">Jump 25</option>
+          <option value="DERIV:JD50">Jump 50</option>
+          <option value="DERIV:JD75">Jump 75</option>
+          <option value="DERIV:JD100">Jump 100</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="control">
+
+        <label>Timeframe</label>
+
+        <select id="timeframe">
+
+          <option value="1min">1 Minute</option>
+          <option value="5min">5 Minutes</option>
+          <option value="15min">15 Minutes</option>
+          <option value="30min">30 Minutes</option>
+          <option value="1h">1 Hour</option>
+          <option value="2h">2 Hours</option>
+          <option value="4h">4 Hours</option>
+          <option value="1day">Daily</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="control">
+
+        <label>Analysis Mode</label>
+
+        <select id="analysisMode">
+
+          <option value="sniper">SNIPER</option>
+          <option value="balanced">BALANCED</option>
+          <option value="early">EARLY SETUP</option>
+
+        </select>
+
+      </div>
+
+
+      <button id="analyzeBtn">
+        ANALYZE MARKET
+      </button>
+
+    </section>
+
+
+    <!-- MARKET STATUS -->
+
+    <section class="market-header panel">
+
+      <div>
+
+        <span class="small">SYMBOL</span>
+
+        <h2 id="displaySymbol">
+          XAU/USD
+        </h2>
+
+      </div>
+
+
+      <div>
+
+        <span class="small">PRICE</span>
+
+        <h2 id="currentPrice">
+          --
+        </h2>
+
+      </div>
+
+
+      <div>
+
+        <span class="small">TIMEFRAME</span>
+
+        <h2 id="displayTimeframe">
+          1 Minute
+        </h2>
+
+      </div>
+
+
+      <div>
+
+        <span class="small">LAST UPDATE</span>
+
+        <h2 id="lastUpdate">
+          --
+        </h2>
+
+      </div>
+
+    </section>
+
+
+    <!-- SIGNAL -->
+
+    <section class="signal-card panel">
+
+      <div class="signal-main">
+
+        <span class="small">
+          CURRENT SIGNAL
+        </span>
+
+        <div
+          id="signal"
+          class="signal wait"
+        >
+          WAIT
+        </div>
+
+        <div id="confidence">
+          No setup
+        </div>
+
+      </div>
+
+
+      <div class="signal-score">
+
+        <span class="small">
+          SCORE
+        </span>
+
+        <strong id="score">
+          0/100
+        </strong>
+
+      </div>
+
+    </section>
+
+
+    <!-- TRADE PLAN -->
+
+    <section class="panel">
+
+      <h2>TRADE PLAN</h2>
+
+      <div class="trade-grid">
+
+        <div>
+          <span>ENTRY</span>
+          <strong id="entry">--</strong>
+        </div>
+
+        <div>
+          <span>STOP LOSS</span>
+          <strong id="sl">--</strong>
+        </div>
+
+        <div>
+          <span>BREAK EVEN</span>
+          <strong id="be">--</strong>
+        </div>
+
+        <div>
+          <span>TP1</span>
+          <strong id="tp1">--</strong>
+        </div>
+
+        <div>
+          <span>TP2</span>
+          <strong id="tp2">--</strong>
+        </div>
+
+        <div>
+          <span>TP3</span>
+          <strong id="tp3">--</strong>
+        </div>
+
+        <div>
+          <span>RISK / REWARD</span>
+          <strong id="rr">--</strong>
+        </div>
+
+        <div>
+          <span>INVALIDATION</span>
+          <strong id="invalidation">--</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- MARKET STRUCTURE -->
+
+    <section class="panel">
+
+      <h2>MARKET STRUCTURE</h2>
+
+      <div class="structure-grid">
+
+        <div>
+          <span>HTF BIAS</span>
+          <strong id="htfBias">--</strong>
+        </div>
+
+        <div>
+          <span>STRUCTURE</span>
+          <strong id="structure">--</strong>
+        </div>
+
+        <div>
+          <span>SWING</span>
+          <strong id="swing">--</strong>
+        </div>
+
+        <div>
+          <span>SWING HIGH</span>
+          <strong id="swingHigh">--</strong>
+        </div>
+
+        <div>
+          <span>SWING LOW</span>
+          <strong id="swingLow">--</strong>
+        </div>
+
+        <div>
+          <span>BOS / CHOCH</span>
+          <strong id="bos">--</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PRICE ACTION -->
+
+    <section class="panel">
+
+      <h2>PRICE ACTION CONFIRMATION</h2>
+
+      <div class="confirmation-list">
+
+        <div>
+          <span>EMA 9 / 21</span>
+          <strong id="emaStatus">--</strong>
+        </div>
+
+        <div>
+          <span>RSI</span>
+          <strong id="rsiStatus">--</strong>
+        </div>
+
+        <div>
+          <span>MACD</span>
+          <strong id="macdStatus">--</strong>
+        </div>
+
+        <div>
+          <span>VWAP</span>
+          <strong id="vwapStatus">--</strong>
+        </div>
+
+        <div>
+          <span>FVG</span>
+          <strong id="fvgStatus">--</strong>
+        </div>
+
+        <div>
+          <span>ORDER BLOCK</span>
+          <strong id="obStatus">--</strong>
+        </div>
+
+        <div>
+          <span>CANDLE</span>
+          <strong id="candleStatus">--</strong>
+        </div>
+
+        <div>
+          <span>MOMENTUM</span>
+          <strong id="momentumStatus">--</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- REASON -->
+
+    <section class="panel">
+
+      <h2>AI ANALYSIS / DEFENSE</h2>
+
+      <div id="analysis">
+        Waiting for market analysis...
+      </div>
+
+    </section>
+
+
+    <!-- CANDLE TABLE -->
+
+    <section class="panel">
+
+      <h2>RECENT MARKET DATA</h2>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>TIME</th>
+              <th>OPEN</th>
+              <th>HIGH</th>
+              <th>LOW</th>
+              <th>CLOSE</th>
+              <th>VOLUME</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="candleTable">
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+
+    <!-- QUESTION BAR -->
+
+    <section class="panel question-panel">
+
+      <h2>ASK PRECISION SNIPER AI</h2>
+
+      <p>
+        Ask why the signal exists, why SL is there,
+        why TP was selected, what the FVG means, etc.
+      </p>
+
+      <div class="question-box">
+
+        <input
+          id="question"
+          type="text"
+          placeholder="Example: Why is this a BUY?"
+        >
+
+        <button id="askBtn">
+          ASK
+        </button>
+
+      </div>
+
+      <div id="answer" class="answer">
+        Ask a question about the current analysis.
+      </div>
+
+    </section>
+
+
+    <!-- ALERT -->
+
+    <section class="panel alert-panel">
+
+      <label class="switch">
+
+        <input
+          type="checkbox"
+          id="alerts"
+        >
+
+        <span class="slider"></span>
+
+      </label>
+
+      <div>
+        <strong>Browser Alerts</strong>
+        <p>
+          Notify me when a new A+/B setup appears.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+
+    PRECISION SNIPER AI
+    <span>•</span>
+    Market Analysis Only
+
+  </footer>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
